@@ -21,7 +21,7 @@ EOF
 }
 
 # parse email address args, query old subscriptions, bind results from queries to the new email address 
-if [[ "${OLD_EMAIL}" =~ ${VALID_CHARS} ]]; then 
+if [[ $OLD_EMAIL =~ $VALID_CHARS ]] && [[ $NEW_EMAIL =~ $VALID_CHARS ]]; then 
   sudo -u mailman /usr/lib/mailman/bin/find_member "${OLD_EMAIL}" | while read lists; do
     lists=$lists
     [[ $lists = *found* ]] && continue 
@@ -32,8 +32,6 @@ if [[ "${OLD_EMAIL}" =~ ${VALID_CHARS} ]]; then
   echo ${OLD_EMAIL} | sudo -u mailman /usr/lib/mailman/bin/remove_members --file=- --fromall -nouserack --noadminack
   echo ""${OLD_EMAIL}" is now deleted"
 else 
-  usage() 
+  usage
   exit 1
 fi 
-
-
