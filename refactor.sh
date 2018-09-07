@@ -22,16 +22,16 @@ EOF
 
 # parse email address args, query old subscriptions, bind results from queries to the new email address 
 if [[ $OLD_EMAIL =~ $VALID_CHARS ]] && [[ $NEW_EMAIL =~ $VALID_CHARS ]]; then 
-  sudo -u mailman /usr/lib/mailman/bin/find_member "${OLD_EMAIL}" | while read lists; do
+  sudo -u mailman /usr/lib/mailman/bin/find_member "$OLD_EMAIL" | while read lists; do
     lists=$lists
-    [[ $lists = *found* ]] && continue 
-    echo "${NEW_EMAIL}" | sudo -u mailman /usr/lib/mailman/bin/add_members --regular-members-file=- --welcome-sgn=n --admin-notify=n "${lists}"
-    echo ""${NEW_EMAIL}" now subscribed to "${lists}""
+    [[ $lists == *found* ]] && continue 
+    echo $NEW_EMAIL | sudo -u mailman /usr/lib/mailman/bin/add_members --regular-members-file=- --welcome-sgn=n --admin-notify=n "$lists"
+    echo "$NEW_EMAIL now subscribed to $lists"
   done
   # now purge this email address
-  echo ${OLD_EMAIL} | sudo -u mailman /usr/lib/mailman/bin/remove_members --file=- --fromall -nouserack --noadminack
-  echo ""${OLD_EMAIL}" is now deleted"
+  echo $OLD_EMAIL | sudo -u mailman /usr/lib/mailman/bin/remove_members --file=- --fromall -nouserack --noadminack
+  echo "$OLD_EMAIL is now deleted"
 else 
   usage
-  exit 1
+  exit 200
 fi 
