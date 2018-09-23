@@ -13,8 +13,10 @@ while getopts "h:u:p:d:" flag; do
   esac
 done
 
-ARG1=${@:$OPTIND:1}
-ARG2=${@:$OPTIND+1:1}
+#ARG1=${@:$OPTIND:1}
+#ARG2=${@:$OPTIND+1:1}
+
+shift $(($OPTIND -1));
 
 if [[ "$#" -ne 2 ]]
 then
@@ -24,7 +26,7 @@ fi
 
 if [[ "$HOSTNAME" ]]
 then
-  echo "Hostname is $(hostnamectl)"
+  echo "Hostname is: HOSTNAME" 
 else
   usage 
   exit 221 
