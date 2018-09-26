@@ -5,7 +5,7 @@ function debug {
   return 0
 }
 
-debug='false'
+debug='true'
 
 debug "Setting name to '${1}' as sent by user."
 name="${1}"
