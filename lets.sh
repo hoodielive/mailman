@@ -48,12 +48,11 @@ done
 shift $((OPTIND - 1))
 
 if [ ! -z "$REFACTOR" ]; then 
-  #if [[ $old_email =~ $valid_chars ]] && [[ $new_email =~ $valid_chars ]]; then
-  if [ ! -z "$old_email"  ] | grep -Eq "$valid_chars"; then 
+  if [[ "$old_email" =~ $valid_chars  ]]; then #| grep -Eq "$valid_chars"; then 
     verbose "confirming that the old email address meets valid character check"
   fi
 
-  if [ ! -z "$new_email" ] | grep -Eq "$valid_chars"; then
+  if [[ "$new_email" =~ $valid_chars ]]; then 
     verbose "confirming that the new email address meets valid character check"
   fi
 else 
