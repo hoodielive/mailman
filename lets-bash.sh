@@ -10,7 +10,6 @@ valid_chars="^([a-zA-Z0-9])+@(email\.lab)$"
 REFACTOR=""
 DEBUG=false
 VERBOSE=false
-MESSAGE=${@}
 
 debug()
 {
@@ -20,12 +19,10 @@ debug()
 
 verbose() 
 {
-  #local MESSAGE="${@}"
-  [ "x${VERBOSE}" = x ] && return; 
-  while [ $# -gt 0 ]; do 
-    echo "script : info: ${1}" 1>&2
-    shift
-  done
+  local MESSAGE="${@}"
+  if [ "${VERBOSE}" = 'true' ]; then 
+    echo "${MESSAGE}"
+  fi
 }
 
 while getopts "hdvf:" opt; do 
@@ -51,15 +48,13 @@ done
 shift $((OPTIND - 1))
 
 if [ ! -z "$REFACTOR" ]; then 
-  #if [[ "$old_email" =~ $valid_chars  ]]; then #| grep -Eq "$valid_chars"; then 
-  if expr "x$old_email" : "x$valid_chars" > /dev/null; then
+  if [[ "$old_email" =~ $valid_chars  ]]; then 
     verbose "confirming that the old email address meets valid character check"
   else
     debug "test failed"
   fi
 
-  #if [[ "$new_email" =~ $valid_chars ]]; then 
-  if expr "x$new_email" : "x$valid_chars" > /dev/null; then 
+  if [[ "$new_email" =~ $valid_chars ]]; then 
     verbose "confirming that the new email address meets valid character check"
   else
     debug "test failed"
