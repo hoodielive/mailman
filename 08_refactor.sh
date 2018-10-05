@@ -56,7 +56,7 @@ verbose()
 {
   if [ "$VERBOSE" = 'true' ]; then
     sleep 1
-    echo "$@." || VERBOSE=false; echo
+    echo "$*." || VERBOSE=false; echo
   fi
   return 0
 }
@@ -109,7 +109,7 @@ else
 fi
 
 sudo -u list "${FIND_MEMBER}" "$OLD_EMAIL" | while read -r lists; do
-if "$(grep -E "found")"; then
+if grep -E "found"; then
     continue;
   else
     DEBUG=true 
@@ -138,7 +138,7 @@ verbose "Now that $OLD_EMAIL lists have been migrated, lets purge $OLD_EMAIL"
 echo "$OLD_EMAIL" | sudo -u list "${REMOVE_MEMBER}" --file=- --fromall --nouserack --noadminack
 
 # Confirm that old email address has been deleted, let us know if it's not. 
-if [ "${REMOVE_MEMBER} ${OLD_EMAIL}" -a "$?" -eq 1 ]; then
+if sudo -u list "${REMOVE_MEMBER} ${OLD_EMAIL}" -a "$?" -eq 1; then
    verbose "$OLD_EMAIL is now deleted"
  else
    DEBUG=true
