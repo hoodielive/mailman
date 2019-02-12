@@ -109,13 +109,9 @@ else
 fi
 
 sudo -u list "${FIND_MEMBER}" "$OLD_EMAIL" | grep -v "found" | while read -r lists; do
-
   verbose "Migrating ${OLD_EMAIL} lists to ${NEW_EMAIL}"
-
   verbose "${NEW_EMAIL} now subscribed to $lists"
-
   echo "$NEW_EMAIL" | sudo -u list "${ADD_MEMBER}" --regular-members-file=- --admin-notify=n "$lists"
-
 done
 
  verbose "Migration complete"
